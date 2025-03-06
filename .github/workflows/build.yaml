@@ -1,0 +1,22 @@
+name: AMUI OS Build
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build-amui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Build
+        run: |
+            bash setup.sh
+            bash make.sh
+
+      - name: Upload OS
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: amuios
+          path: ${{ github.workspace }}/build
