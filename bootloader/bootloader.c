@@ -1,6 +1,6 @@
 void _start() {
-    main();
+    boot();
 }
-int main() {
+int boot() {
     return 0;
 }
