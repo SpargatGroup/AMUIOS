@@ -1,4 +1,4 @@
-# An modern OS made in C++ and C and Assemblt(very less)
+# The Open Adaptive Multi-User Intelligence(AMUI) OS - An modern OS made in C++ and C and Assembly(very less)
 
 ## Description
 
