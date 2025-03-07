@@ -1,9 +1,9 @@
 name: OpenAmui Build
 
 on:
-  push:
-  pull_request:
-  release:
+  - push
+  - pull_request
+  - release:
     types: [created]
 
 jobs:
@@ -29,9 +29,5 @@ jobs:
       if: github.event_name == 'release'
       runs-on: ubuntu-latest
       steps:
-      - name: Upload artifacts to GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            artifacts/32/**
-            artifacts/64/**
+      - name: Test
+        run: echo test
