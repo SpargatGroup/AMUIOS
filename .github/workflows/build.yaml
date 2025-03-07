@@ -14,13 +14,13 @@ jobs:
         run: |
             bash setup.sh
             bash make.sh
-      - name: Upload OS 32
+      - name: Upload builded OS 32
         uses: actions/upload-pages-artifact@v3
         with:
-          name: amuios
+          name: openamui-32
           path: ${{ github.workspace }}/build/32/
-      - name: Upload OS 64
+      - name: Upload builded OS 64
         uses: actions/upload-pages-artifact@v3
         with:
-          name: amuios
+          name: openamui-64
           path: ${{ github.workspace }}/build/64/
