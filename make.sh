@@ -34,6 +34,17 @@ for build in "${arhitecture[@]}"; do
     fi
     ld -m $arhitecture_boot -T linker.ld -nostdlib --static -o build/$build/boot/kernel.bin build/$build/obj/bootloader/*.o
 
-    ## iso build
-    grub-mkrescue -o build/$build/openamui-$build.iso build/$build # don't add a supplimentary empty folder to the build of iso
+    ## move depencies
+    mkdir -p build/$build/boot/grub
+    cp boot/stage2_eltorito build/$build/boot/grub/stage2_eltorito
+    cp boot/grub.cfg build/$build/boot/grub/grub.cfg
+    mkdir -p build/$build/efi/boot
+    if [ $build -eq 32 ]; then
+        cp boot/bootia32.efi build/$build/efi/boot/
+    elif [ $build -eq 64 ]; then
+        cp boot/bootx64.efi build/$build/efi/boot/
+    fi
+
+    ## build iso
+    sudo grub-mkrescue -o build/$build/openamui-$build.iso build/$build --compress=xz --no-pad
 done
