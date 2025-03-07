@@ -1,4 +1,4 @@
-name: AMUI OS Build
+name: OpenAmui Build
 
 on:
   - push
@@ -14,9 +14,13 @@ jobs:
         run: |
             bash setup.sh
             bash make.sh
-
-      - name: Upload OS
+      - name: Upload OS 32
         uses: actions/upload-pages-artifact@v3
         with:
           name: amuios
-          path: ${{ github.workspace }}/build
+          path: ${{ github.workspace }}/build/32/
+      - name: Upload OS 64
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: amuios
+          path: ${{ github.workspace }}/build/64/
