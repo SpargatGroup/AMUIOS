@@ -2,7 +2,7 @@
 
 ## Best option if you want to make an new os but without using linux base, this project is very easy to build.
 
-<img src="https://github.com/SpargatGroup/OpenAmui/blob/latest/files/boot_img.png">
+<img src="files/boot_img.png">
 
 ## Description
 
