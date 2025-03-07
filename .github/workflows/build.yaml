@@ -24,10 +24,10 @@ jobs:
         with:
           name: openamui-64
           path: ${{ github.workspace }}/build/64/
-    release-openamui:
-      needs: build-openamui
-      if: github.event_name == 'release'
-      runs-on: ubuntu-latest
-      steps:
-      - name: Test
-        run: echo test
+#    release-openamui:
+#      needs: build-openamui
+#      if: github.event_name == 'release'
+#      runs-on: ubuntu-latest
+#      steps:
+#      - name: Test
+#        run: echo test

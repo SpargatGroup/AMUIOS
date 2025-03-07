@@ -25,3 +25,5 @@
 ```bash
 sudo bash setup.sh && sudo bash make.sh
 ```
+
+## Fell free to fork and make ur own os based on OpenAmui
