@@ -3,8 +3,8 @@ name: OpenAmui Build
 on:
   - push
   - pull_request
-  - release:
-    types: [created]
+#  - release:
+#    types: [created]
 
 jobs:
   build-openamui:
