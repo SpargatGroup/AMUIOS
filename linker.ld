@@ -1,14 +1,13 @@
 ENTRY(_start)
 
-SECTIONS {
-    . = 0x100000;
-    .text : {
-        *(.text)
-    }
-    .data : {
-        *(.data)
-    }
-    .bss : {
-        *(.bss)
-    }
+SECTIONS
+{
+	. = 0xffffffff80000000;
+
+	.bootstrap : { *(.bootstrap) }
+	.phdr5 : { *(.phdr5) }
+	.test : { *(.text) *(.text.*) }
+	.rodata : { *(.rodata) *(.rodata.*) }
+	.data : { *(.data) *(.data.*) }
+	.bss : { *(.bss) *(.bss.*) }
 }

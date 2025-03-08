@@ -11,19 +11,17 @@ arhitecture=(32 64)
 for build in "${arhitecture[@]}"; do
     ## kernel build
     mkdir -p build/$build
-    mkdir -p build/$build/obj/kernel
+    mkdir -p build/$build/system/obj/kernel
     for file in $kernel_files; do
-        gcc -nostartfiles -nostdlib -O2 -Wall -Wextra -m$build -c $file -o build/$build/obj/kernel/$(basename ${file%.c}.o)
+        gcc -nostartfiles -nostdlib -O2 -Wall -Wextra -m$build -c $file -o build/$build/system/obj/kernel/$(basename ${file%.c}.o)
     done
 
     ## bootloader build
-    mkdir -p build/$build/obj/bootloader
-    for file in $bootloader_files; do
-        gcc -nostartfiles -nostdlib -O2 -Wall -Wextra -m$build -c $file -o build/$build/obj/bootloader/$(basename ${file%.c}.o)
-    done
+    cd bootloader
+    sudo bash get.sh
+    cd ../
 
-    ## bootloader
-    mkdir -p build/$build/boot
+    ## kernel
     if [ $build -eq 32 ]; then
         arhitecture_boot=elf_i386
     elif [ $build -eq 64 ]; then
@@ -32,19 +30,17 @@ for build in "${arhitecture[@]}"; do
         echo "Invalid architecture: $build"
         exit 1
     fi
-    ld -m $arhitecture_boot -T linker.ld -nostdlib --static -o build/$build/boot/kernel.bin build/$build/obj/bootloader/*.o
+    ld -m $arhitecture_boot -T linker.ld -nostdlib --static -o build/$build/system/kernel.bin build/$build/system/obj/kernel/*.o
 
     ## move depencies
-    mkdir -p build/$build/boot/grub
-    cp boot/stage2_eltorito build/$build/boot/grub/stage2_eltorito
-    cp boot/grub.cfg build/$build/boot/grub/grub.cfg
-    mkdir -p build/$build/efi/boot
-    if [ $build -eq 32 ]; then
-        cp boot/bootia32.efi build/$build/efi/boot/
-    elif [ $build -eq 64 ]; then
-        cp boot/bootx64.efi build/$build/efi/boot/
-    fi
+    mkdir -p build/$build/boot/limine
+    cp limine.conf build/$build/boot/limine/limine.conf
+    cp -r bootloader/limine build/$build/boot/
 
     ## build iso
-    sudo grub-mkrescue -o build/$build/openamui-$build.iso build/$build --compress=xz --no-pad
+    xorriso -as mkisofs -R -r -J -b boot/limine/limine-bios-cd.bin \
+        -no-emul-boot -boot-load-size 4 -boot-info-table -hfsplus \
+        -apm-block-size 2048 --efi-boot boot/limine/limine-uefi-cd.bin \
+        -efi-boot-part --efi-boot-image --protective-msdos-label \
+        build/$build -o build/$build/openamui-$build.iso
 done
